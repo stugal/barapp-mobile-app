@@ -87,7 +87,7 @@ public class AbstractFoodBarActivity extends AppCompatActivity {
 
         getSessionService().activateSession(vendorId, tableId);
 
-        SingleToast.show(this, "Vendor: " + vendorId + " table: " + tableId, Toast.LENGTH_LONG);
+        //SingleToast.show(this, "Vendor: " + vendorId + " table: " + tableId, Toast.LENGTH_LONG);
 
         new FoodMenuRetrievalTask(this) {
             @Override

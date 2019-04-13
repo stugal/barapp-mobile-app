@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yc.foodbar.R;
+import com.yc.foodbar.activities.CheckoutActivity;
 import com.yc.foodbar.remote.pojo.Item;
 import com.yc.foodbar.remote.pojo.Order;
 
@@ -23,8 +24,11 @@ import static android.R.attr.order;
  */
 
 public class CheckoutAdapter extends ArrayAdapter<Item> {
+
+    private CheckoutActivity activity;
     public CheckoutAdapter(@NonNull Context context, @NonNull List<Item> objects) {
         super(context, 0, objects);
+        this.activity = (CheckoutActivity) context;
     }
 
     @Override
@@ -45,6 +49,8 @@ public class CheckoutAdapter extends ArrayAdapter<Item> {
         addItem.setOnClickListener( new View.OnClickListener() {
             public void onClick(View v) {
                 remove(item);
+
+                CheckoutAdapter.this.activity.updateTotal();
             }
         });
 

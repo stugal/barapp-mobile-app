@@ -43,6 +43,11 @@ public class SessionService extends AbstractFoodBarService {
         }
     }
 
+    public void clearOrder() {
+        this.order = null;
+        this.items.clear();
+    }
+
     public Order getOrder() {
         return this.order;
     }

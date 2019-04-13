@@ -12,18 +12,23 @@
 
         <TextView
             android:id="@+id/foodItemName"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="8dp"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
             android:text="name"
             android:textAlignment="viewStart"
             android:textSize="14sp"
             android:textStyle="bold"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintLeft_toRightOf="@+id/foodItemImg"
+            android:layout_marginLeft="7dp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/foodItemImg"
+            android:layout_marginBottom="0dp"
+            app:layout_constraintRight_toLeftOf="@+id/foodItemPrice"
+            android:layout_marginRight="8dp"
+            app:layout_constraintVertical_bias="0.461" />
 
         <TextView
             android:id="@+id/foodItemPrice"
@@ -35,26 +40,45 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/foodItemIngredients"
+        <ImageView
+            android:id="@+id/foodItemImg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
+            app:srcCompat="@android:drawable/ic_lock_lock"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="15dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/foodItemIngredients"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:text="TextView"
             android:textSize="12sp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/foodItemName" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            app:layout_constraintHorizontal_bias="0.0"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/foodItemImg"
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintRight_toLeftOf="@+id/addFoodItem"
+            app:layout_constraintLeft_toRightOf="@+id/foodItemImg" />
 
         <ImageView
             android:id="@+id/addFoodItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="8dp"
             app:layout_constraintRight_toRightOf="parent"
+            app:srcCompat="@android:drawable/ic_input_add"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@+id/foodItemPrice"
-            app:srcCompat="@android:drawable/ic_input_add" />
+            app:layout_constraintVertical_bias="0.483" />
     </android.support.constraint.ConstraintLayout>
 
 </LinearLayout>

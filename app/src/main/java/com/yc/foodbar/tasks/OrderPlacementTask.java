@@ -11,6 +11,8 @@ import com.yc.foodbar.remote.pojo.OrderResult;
 
 import java.io.IOException;
 
+import retrofit2.Response;
+
 /**
  * Created by stugal on 4/13/2019.
  */
@@ -32,7 +34,8 @@ public class OrderPlacementTask extends AsyncTask<Object, Void, OrderResult> {
         OrderEx service = activity.getRemotingService().createServiceEndpoint(OrderEx.class);
         OrderResult result = null;
         try {
-            result = service.placeOrder(this.order).execute().body();
+            Response r = service.placeOrder(this.order).execute();
+            result = (OrderResult) r.body();
         } catch (IOException e) {
             e.printStackTrace();
         }

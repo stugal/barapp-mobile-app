@@ -2,6 +2,7 @@ package com.yc.foodbar.ui.elements;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
 import com.yc.foodbar.AbstractFoodBarActivity;
 import com.yc.foodbar.R;
 import com.yc.foodbar.remote.pojo.Category;
@@ -17,6 +19,8 @@ import com.yc.foodbar.remote.pojo.Item;
 
 import java.util.HashMap;
 import java.util.List;
+
+import static com.yc.foodbar.R.id.imageView;
 
 /**
  * Created by stugal on 4/13/2019.
@@ -57,6 +61,11 @@ public class FoodMenuAdapter extends BaseExpandableListAdapter {
                 .findViewById(R.id.foodItemPrice);
         TextView ingred = (TextView) convertView
                 .findViewById(R.id.foodItemIngredients);
+        ImageView img = (ImageView) convertView
+                .findViewById(R.id.foodItemImg);
+
+        Picasso.with(context).load(item.getImagePath()).resize(200, 0).into(img);
+
         name.setText(item.getName());
         price.setText("$" + item.getPrice());
 
@@ -75,6 +84,8 @@ public class FoodMenuAdapter extends BaseExpandableListAdapter {
             public void onClick(View v) {
                 SingleToast.show(FoodMenuAdapter.this.context, item.getName() + " added to your order!", Toast.LENGTH_LONG);
                 FoodMenuAdapter.this.context.getSessionService().addToOrder(item);
+                Vibrator vibe = (Vibrator) FoodMenuAdapter.this.context.getSystemService(Context.VIBRATOR_SERVICE);
+                vibe.vibrate(100);
             }
         });
 

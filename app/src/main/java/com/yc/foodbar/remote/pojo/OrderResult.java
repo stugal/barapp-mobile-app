@@ -9,7 +9,7 @@ import java.io.Serializable;
  */
 
 public class OrderResult implements Serializable {
-    @SerializedName("order_number")
+    @SerializedName("order_id")
     private int orderNumber;
     @SerializedName("expected_wait_time")
     private int expectedWaitTime;

@@ -13,6 +13,29 @@ public class FoodMenu implements Serializable {
 
     private List<Category> menu;
 
+
+    @SerializedName("name")
+    private String vendorName;
+
+    @SerializedName("image_path")
+    private String vendorImagePath;
+
+    public String getVendorName() {
+        return vendorName;
+    }
+
+    public void setVendorName(String vendorName) {
+        this.vendorName = vendorName;
+    }
+
+    public String getVendorImagePath() {
+        return vendorImagePath;
+    }
+
+    public void setVendorImagePath(String vendorImagePath) {
+        this.vendorImagePath = vendorImagePath;
+    }
+
     public List<Category> getMenu() {
         return menu;
     }
