@@ -26,7 +26,7 @@ public class FoodMenuRetrievalTask extends AsyncTask<Object, Void, FoodMenu> {
         FoodMenuEx service = activity.getRemotingService().createServiceEndpoint(FoodMenuEx.class);
         FoodMenu menu = null;
         try {
-             menu = service.getFoodMenu().execute().body();
+             menu = service.getFoodMenu(1).execute().body();
         } catch (IOException e) {
             e.printStackTrace();
         }
