@@ -16,6 +16,12 @@ public class Item implements Serializable {
     @SerializedName("item_name")
     private String name;
 
+    @SerializedName("price")
+    private float price;
+
+    @SerializedName("image_path")
+    private String imagePath;
+
     private List<String> ingredients;
 
     public int getItemId() {
@@ -40,6 +46,22 @@ public class Item implements Serializable {
 
     public void setIngredients(List<String> ingredients) {
         this.ingredients = ingredients;
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
     }
 
     @Override

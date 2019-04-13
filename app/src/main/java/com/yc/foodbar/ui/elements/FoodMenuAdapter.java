@@ -6,8 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.yc.foodbar.AbstractFoodBarActivity;
 import com.yc.foodbar.R;
 import com.yc.foodbar.remote.pojo.Category;
 import com.yc.foodbar.remote.pojo.Item;
@@ -21,11 +24,11 @@ import java.util.List;
 
 public class FoodMenuAdapter extends BaseExpandableListAdapter {
 
-    private Context context;
+    private AbstractFoodBarActivity context;
     private List<Category> foodMenu;
 
     public FoodMenuAdapter(Context context, List<Category> foodMenu) {
-        this.context = context;
+        this.context = (AbstractFoodBarActivity) context;
         this.foodMenu = foodMenu;
     }
 
@@ -48,9 +51,33 @@ public class FoodMenuAdapter extends BaseExpandableListAdapter {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.fooditem_list_item, null);
         }
-        TextView expandedListTextView = (TextView) convertView
-                .findViewById(R.id.foodItem);
-        expandedListTextView.setText(item.getName());
+        TextView name = (TextView) convertView
+                .findViewById(R.id.foodItemName);
+        TextView price = (TextView) convertView
+                .findViewById(R.id.foodItemPrice);
+        TextView ingred = (TextView) convertView
+                .findViewById(R.id.foodItemIngredients);
+        name.setText(item.getName());
+        price.setText("$" + item.getPrice());
+
+        String ing = "";
+
+        for (int i = 0; i < item.getIngredients().size(); i++) {
+            ing += item.getIngredients().get(i) ;
+            if (i < item.getIngredients().size() - 1) {
+                ing += ", ";
+            }
+        }
+        ingred.setText(ing);
+
+        ImageView addItem = (ImageView) convertView.findViewById(R.id.addFoodItem);
+        addItem.setOnClickListener( new View.OnClickListener() {
+            public void onClick(View v) {
+                SingleToast.show(FoodMenuAdapter.this.context, item.getName() + " added to your order!", Toast.LENGTH_LONG);
+                FoodMenuAdapter.this.context.getSessionService().addToOrder(item);
+            }
+        });
+
         return convertView;
     }
 

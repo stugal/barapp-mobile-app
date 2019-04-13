@@ -210,10 +210,7 @@ public class NfcScanActivity extends AbstractFoodBarActivity {
 
             @Override
             protected void onPostExecute(String result) {
-                Intent intent = new Intent(NfcScanActivity.this, MainActivity.class);
-                intent.putExtra(AppConstants.EXTRA_TABLE_LOGIN_DATA, result);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP );
-                startActivity(intent);
+                NfcScanActivity.this.processVendorTableData(result);
             }
         }
     }

@@ -21,9 +21,9 @@ public class Order implements Serializable {
     @SerializedName("user_id")
     private int userId;
 
-    private List<Integer> items;
+    private List<Item> items;
 
-    public Order(int vendorId, int tableNumber, int userId, List<Integer> items) {
+    public Order(int vendorId, int tableNumber, int userId, List<Item> items) {
         this.vendorId = vendorId;
         this.tableNumber = tableNumber;
         this.userId = userId;
@@ -57,11 +57,11 @@ public class Order implements Serializable {
         this.userId = userId;
     }
 
-    public List<Integer> getItems() {
+    public List<Item> getItems() {
         return items;
     }
 
-    public void setItems(List<Integer> items) {
+    public void setItems(List<Item> items) {
         this.items = items;
     }
 }

@@ -68,13 +68,13 @@ public class MainActivity extends AbstractFoodBarActivity {
             }
         }.execute();
 
-        new OrderPlacementTask(this, new Order(1, 1, 1, Arrays.asList(1,2,3))) {
+       /* new OrderPlacementTask(this, new Order(1, 1, 1, Arrays.asList(1,2,3))) {
 
             @Override
             protected void onPostExecute(OrderResult result) {
                 Log.e("RES", result.toString());
             }
-        }.execute();
+        }.execute();*/
     }
 
     @Override
@@ -98,30 +98,5 @@ public class MainActivity extends AbstractFoodBarActivity {
         }
     }
 
-    private void processVendorTableData(String data) {
-        String [] dataArr = data.split(";");
-        String vendorId = dataArr[0];
-        String tableId = dataArr[1];
 
-        SingleToast.show(this, "Vendor: " + vendorId + " table: " + tableId, Toast.LENGTH_LONG);
-
-        new FoodMenuRetrievalTask(this) {
-            @Override
-            protected void onPostExecute(FoodMenu menu) {
-                for (Category c : menu.getMenu()) {
-                    Log.e("CAT: ", c.toString());
-                }
-
-
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(AppConstants.EXTRA_FOOD_MENU, menu);
-
-                Intent intent = new Intent(MainActivity.this, FoodMenuActivity.class);
-                intent.putExtras(bundle);
-
-
-                startActivity(intent);
-            }
-        }.execute();
-    }
 }
