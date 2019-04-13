@@ -11,8 +11,15 @@ import com.google.zxing.integration.android.IntentResult;
 import com.yc.foodbar.qr.CaptureActivityPortait;
 import com.yc.foodbar.remote.pojo.Category;
 import com.yc.foodbar.remote.pojo.FoodMenu;
+import com.yc.foodbar.remote.pojo.Order;
+import com.yc.foodbar.remote.pojo.OrderResult;
 import com.yc.foodbar.tasks.FoodMenuRetrievalTask;
+import com.yc.foodbar.tasks.OrderPlacementTask;
 import com.yc.foodbar.ui.elements.SingleToast;
+
+import java.util.Arrays;
+
+import static android.R.attr.data;
 
 public class MainActivity extends AbstractFoodBarActivity {
 
@@ -41,6 +48,14 @@ public class MainActivity extends AbstractFoodBarActivity {
                 for (Category c : menu.getMenu()) {
                     Log.e("CAT: ", c.toString());
                 }
+            }
+        }.execute();
+
+        new OrderPlacementTask(this, new Order(1, 1, 1, Arrays.asList(1,2,3))) {
+
+            @Override
+            protected void onPostExecute(OrderResult result) {
+                Log.e("RES", result.toString());
             }
         }.execute();
     }
