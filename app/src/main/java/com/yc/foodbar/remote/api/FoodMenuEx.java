@@ -1,12 +1,9 @@
 package com.yc.foodbar.remote.api;
 
-import com.yc.foodbar.remote.pojo.Category;
-
-import java.util.List;
+import com.yc.foodbar.remote.pojo.FoodMenu;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
 
 /**
  * Created by stugal on 4/12/2019.
@@ -15,6 +12,6 @@ import retrofit2.http.Path;
 public interface FoodMenuEx {
 
     @GET("menu")
-    Call<List<Category>> getFoodMenu();
+    Call<FoodMenu> getFoodMenu();
 
 }

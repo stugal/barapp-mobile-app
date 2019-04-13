@@ -15,7 +15,7 @@ public class Item {
     @SerializedName("item_name")
     private String name;
 
-    private List<Ingredient> ingredients;
+    private List<String> ingredients;
 
     public int getItemId() {
         return itemId;
@@ -33,11 +33,11 @@ public class Item {
         this.name = name;
     }
 
-    public List<Ingredient> getIngredients() {
+    public List<String> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(List<Ingredient> ingredients) {
+    public void setIngredients(List<String> ingredients) {
         this.ingredients = ingredients;
     }
 

@@ -1,7 +1,6 @@
 package com.yc.foodbar;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,12 +10,9 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.yc.foodbar.qr.CaptureActivityPortait;
 import com.yc.foodbar.remote.pojo.Category;
-import com.yc.foodbar.services.AbstractFoodBarService;
+import com.yc.foodbar.remote.pojo.FoodMenu;
 import com.yc.foodbar.tasks.FoodMenuRetrievalTask;
 import com.yc.foodbar.ui.elements.SingleToast;
-import com.yc.foodbar.utils.AppConstants;
-
-import java.util.List;
 
 public class MainActivity extends AbstractFoodBarActivity {
 
@@ -41,8 +37,8 @@ public class MainActivity extends AbstractFoodBarActivity {
     public void test(View view) {
         new FoodMenuRetrievalTask(this) {
             @Override
-            protected void onPostExecute(List<Category> categories) {
-                for (Category c : categories) {
+            protected void onPostExecute(FoodMenu menu) {
+                for (Category c : menu.getMenu()) {
                     Log.e("CAT: ", c.toString());
                 }
             }
