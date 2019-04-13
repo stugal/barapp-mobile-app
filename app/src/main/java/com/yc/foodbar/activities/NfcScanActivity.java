@@ -16,9 +16,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.yc.foodbar.AbstractFoodBarActivity;
+import com.yc.foodbar.MainActivity;
 import com.yc.foodbar.R;
 import com.yc.foodbar.logging.LogTags;
+import com.yc.foodbar.services.AbstractFoodBarService;
 import com.yc.foodbar.ui.elements.SingleToast;
+import com.yc.foodbar.utils.AppConstants;
 import com.yc.foodbar.utils.TagUtils;
 
 import java.io.IOException;
@@ -29,7 +33,7 @@ import retrofit2.Call;
 
 import static com.yc.foodbar.utils.AppConstants.MIME_TEXT_PLAIN;
 
-public class NfcScanActivity extends AppCompatActivity {
+public class NfcScanActivity extends AbstractFoodBarActivity {
 
     /**
      * NFC adapter and tag
@@ -131,77 +135,85 @@ public class NfcScanActivity extends AppCompatActivity {
          *   new instance of this activity the current is presented
          */
         //super.onNewIntent(intent);
+
         handleNFC(intent);
+
     }
 
 
     private void handleNFC(Intent intent) {
-        String action = intent.getAction();
-
-        if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)) {
-
-            String type = intent.getType();
-            if (MIME_TEXT_PLAIN.equals(type)) {
-
-                this.productTag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-                new TagReadingTask().execute(this.productTag);
-
-            } else {
-                Log.d(LogTags.NFC_ERROR, "Wrong mime type: " + type);
-            }
-        } else if (NfcAdapter.ACTION_TECH_DISCOVERED.equals(action)) {
-
-            // In case we would still use the Tech Discovered Intent
-            Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-            String[] techList = tag.getTechList();
-            String searchedTech = Ndef.class.getName();
-
-            for (String tech : techList) {
-                if (searchedTech.equals(tech)) {
-                    new TagReadingTask().execute(tag);
-                    break;
-                }
-            }
+        if (getSessionService().isSessionActive()) {
+            return;
         }
-    }
+            String action = intent.getAction();
 
-    private class TagReadingTask extends AsyncTask<Tag, Void, String> {
+            if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)) {
 
-        @Override
-        protected String doInBackground(Tag... params) {
-            Tag tag = params[0];
+                String type = intent.getType();
+                if (MIME_TEXT_PLAIN.equals(type)) {
 
-            try {
-                Thread.sleep(900);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+                    this.productTag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+                    new TagReadingTask().execute(this.productTag);
 
-            Ndef ndef = Ndef.get(tag);
-            if (ndef == null) {
-                // NDEF is not supported by this Tag.
-                return null;
-            }
+                } else {
+                    Log.d(LogTags.NFC_ERROR, "Wrong mime type: " + type);
+                }
+            } else if (NfcAdapter.ACTION_TECH_DISCOVERED.equals(action)) {
 
-            NdefMessage ndefMessage = ndef.getCachedNdefMessage();
+                // In case we would still use the Tech Discovered Intent
+                Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+                String[] techList = tag.getTechList();
+                String searchedTech = Ndef.class.getName();
 
-            NdefRecord[] records = ndefMessage.getRecords();
-            for (NdefRecord ndefRecord : records) {
-                if (ndefRecord.getTnf() == NdefRecord.TNF_WELL_KNOWN && Arrays.equals(ndefRecord.getType(), NdefRecord.RTD_TEXT)) {
-                    try {
-                        return TagUtils.readText(ndefRecord);
-                    } catch (UnsupportedEncodingException e) {
-                        Log.e(LogTags.NFC_ERROR, "Unsupported Encoding", e);
+                for (String tech : techList) {
+                    if (searchedTech.equals(tech)) {
+                        new TagReadingTask().execute(tag);
+                        break;
                     }
                 }
             }
-
-            return null;
         }
 
-        @Override
-        protected void onPostExecute(String result) {
-            SingleToast.show(NfcScanActivity.this, result, Toast.LENGTH_LONG);
+        private class TagReadingTask extends AsyncTask<Tag, Void, String> {
+
+            @Override
+            protected String doInBackground(Tag... params) {
+                Tag tag = params[0];
+
+                try {
+                    Thread.sleep(900);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                Ndef ndef = Ndef.get(tag);
+                if (ndef == null) {
+                    // NDEF is not supported by this Tag.
+                    return null;
+                }
+
+                NdefMessage ndefMessage = ndef.getCachedNdefMessage();
+
+                NdefRecord[] records = ndefMessage.getRecords();
+                for (NdefRecord ndefRecord : records) {
+                    if (ndefRecord.getTnf() == NdefRecord.TNF_WELL_KNOWN && Arrays.equals(ndefRecord.getType(), NdefRecord.RTD_TEXT)) {
+                        try {
+                            return TagUtils.readText(ndefRecord);
+                        } catch (UnsupportedEncodingException e) {
+                            Log.e(LogTags.NFC_ERROR, "Unsupported Encoding", e);
+                        }
+                    }
+                }
+
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                Intent intent = new Intent(NfcScanActivity.this, MainActivity.class);
+                intent.putExtra(AppConstants.EXTRA_TABLE_LOGIN_DATA, result);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP );
+                startActivity(intent);
+            }
         }
     }
-}

@@ -2,6 +2,7 @@ package com.yc.foodbar.remote.pojo;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
@@ -9,7 +10,7 @@ import java.util.UUID;
  * Created by stugal on 4/13/2019.
  */
 
-public class Order {
+public class Order implements Serializable {
 
     @SerializedName("vendor_id")
     private int vendorId;

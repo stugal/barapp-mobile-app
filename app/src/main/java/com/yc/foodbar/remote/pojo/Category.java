@@ -2,13 +2,14 @@ package com.yc.foodbar.remote.pojo;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by stugal on 4/12/2019.
  */
 
-public class Category {
+public class Category implements Serializable {
 
     @SerializedName("category_id")
     private int categoryId;

@@ -2,11 +2,13 @@ package com.yc.foodbar.remote.pojo;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by stugal on 4/13/2019.
  */
 
-public class OrderResult {
+public class OrderResult implements Serializable {
     @SerializedName("order_number")
     private int orderNumber;
     @SerializedName("expected_wait_time")

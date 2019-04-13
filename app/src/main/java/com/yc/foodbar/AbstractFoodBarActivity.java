@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.yc.foodbar.services.RemotingService;
 import com.yc.foodbar.services.ServiceRegistry;
+import com.yc.foodbar.services.SessionService;
 
 public class AbstractFoodBarActivity extends AppCompatActivity {
 
@@ -14,6 +15,11 @@ public class AbstractFoodBarActivity extends AppCompatActivity {
      * Services
      */
     private RemotingService remotingService;
+
+    /**
+     * Session service
+     */
+    private SessionService sessionService;
 
     /**
      * Progress bar
@@ -41,9 +47,18 @@ public class AbstractFoodBarActivity extends AppCompatActivity {
         this.remotingService = remotingService;
     }
 
+    public SessionService getSessionService() {
+        return sessionService;
+    }
+
+    public void setSessionService(SessionService sessionService) {
+        this.sessionService = sessionService;
+    }
+
     protected void initializeServices() {
         ServiceRegistry.INSTANTIATE(this);
         setRemotingService((RemotingService) ServiceRegistry.getService(RemotingService.class));
+        setSessionService((SessionService) ServiceRegistry.getService(SessionService.class));
     }
 
     public void initializeSpinner() {

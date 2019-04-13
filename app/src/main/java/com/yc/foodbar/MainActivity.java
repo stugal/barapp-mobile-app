@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.yc.foodbar.activities.FoodMenuActivity;
+import com.yc.foodbar.activities.NfcScanActivity;
 import com.yc.foodbar.qr.CaptureActivityPortait;
 import com.yc.foodbar.remote.pojo.Category;
 import com.yc.foodbar.remote.pojo.FoodMenu;
@@ -18,6 +20,7 @@ import com.yc.foodbar.remote.pojo.OrderResult;
 import com.yc.foodbar.tasks.FoodMenuRetrievalTask;
 import com.yc.foodbar.tasks.OrderPlacementTask;
 import com.yc.foodbar.ui.elements.SingleToast;
+import com.yc.foodbar.utils.AppConstants;
 
 import java.util.Arrays;
 
@@ -28,12 +31,17 @@ public class MainActivity extends AbstractFoodBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                openQrScan(getCurrentFocus());
-            }
-        }, 1800);
+        if (!getSessionService().isSessionActive() &&  getIntent().getExtras() == null) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    openQrScan(getCurrentFocus());
+                }
+            }, 1800);
+        } else {
+            String data = getIntent().getExtras().getString(AppConstants.EXTRA_TABLE_LOGIN_DATA);
+            processVendorTableData(data);
+        }
     }
 
 
@@ -83,10 +91,37 @@ public class MainActivity extends AbstractFoodBarActivity {
                     SingleToast.show(this, result.getContents(), Toast.LENGTH_LONG);
                 } else {
                     String qrData = result.getContents();
-
+                    processVendorTableData(qrData);
                 }
             }
             return;
         }
+    }
+
+    private void processVendorTableData(String data) {
+        String [] dataArr = data.split(";");
+        String vendorId = dataArr[0];
+        String tableId = dataArr[1];
+
+        SingleToast.show(this, "Vendor: " + vendorId + " table: " + tableId, Toast.LENGTH_LONG);
+
+        new FoodMenuRetrievalTask(this) {
+            @Override
+            protected void onPostExecute(FoodMenu menu) {
+                for (Category c : menu.getMenu()) {
+                    Log.e("CAT: ", c.toString());
+                }
+
+
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(AppConstants.EXTRA_FOOD_MENU, menu);
+
+                Intent intent = new Intent(MainActivity.this, FoodMenuActivity.class);
+                intent.putExtras(bundle);
+
+
+                startActivity(intent);
+            }
+        }.execute();
     }
 }

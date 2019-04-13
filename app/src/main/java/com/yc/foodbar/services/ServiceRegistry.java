@@ -19,6 +19,7 @@ public class ServiceRegistry {
      */
     public static void INSTANTIATE(Context ctx) {
         serviceRegistry.put(RemotingService.class, new RemotingService());
+        serviceRegistry.put(SessionService.class, new SessionService());
     }
 
     public static <T> T getService(Class serviceClass) {
