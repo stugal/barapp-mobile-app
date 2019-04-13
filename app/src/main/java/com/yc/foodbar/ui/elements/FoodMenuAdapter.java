@@ -72,7 +72,7 @@ public class FoodMenuAdapter extends BaseExpandableListAdapter {
         name.setText(item.getName());
         if (item.isSoldOut()) {
             price.setText("We're sold out :(. Sorry!");
-            addItem.setImageDrawable(this.context.getResources().getDrawable(R.mipmap.is_fb_logo));
+            addItem.setImageDrawable(null);
         } else {
             price.setText("$" + item.getPrice());
             addItem.setOnClickListener( new View.OnClickListener() {
