@@ -6,6 +6,8 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
+import static com.yc.foodbar.R.id.specialInstructions;
+
 /**
  * Created by stugal on 4/13/2019.
  */
@@ -21,13 +23,17 @@ public class Order implements Serializable {
     @SerializedName("user_id")
     private int userId;
 
+    @SerializedName("special_instructions")
+    private String specialInstructions;
+
     private List<Item> items;
 
-    public Order(int vendorId, int tableNumber, int userId, List<Item> items) {
+    public Order(int vendorId, int tableNumber, int userId, String specialInstructions, List<Item> items) {
         this.vendorId = vendorId;
         this.tableNumber = tableNumber;
         this.userId = userId;
         this.items = items;
+        this.specialInstructions = specialInstructions;
     }
 
     public Order() {
@@ -63,5 +69,13 @@ public class Order implements Serializable {
 
     public void setItems(List<Item> items) {
         this.items = items;
+    }
+
+    public String getSpecialInstructions() {
+        return specialInstructions;
+    }
+
+    public void setSpecialInstructions(String specialInstructions) {
+        this.specialInstructions = specialInstructions;
     }
 }

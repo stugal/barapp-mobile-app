@@ -66,8 +66,25 @@ public class FoodMenuAdapter extends BaseExpandableListAdapter {
 
         Picasso.with(context).load(item.getImagePath()).resize(200, 0).into(img);
 
+        ImageView addItem = (ImageView) convertView.findViewById(R.id.addFoodItem);
+
+
         name.setText(item.getName());
-        price.setText("$" + item.getPrice());
+        if (item.isSoldOut()) {
+            price.setText("We're sold out :(. Sorry!");
+            addItem.setImageDrawable(this.context.getResources().getDrawable(R.mipmap.is_fb_logo));
+        } else {
+            price.setText("$" + item.getPrice());
+            addItem.setOnClickListener( new View.OnClickListener() {
+                public void onClick(View v) {
+                    SingleToast.show(FoodMenuAdapter.this.context, item.getName() + " added to your order!", Toast.LENGTH_LONG);
+                    FoodMenuAdapter.this.context.getSessionService().addToOrder(item);
+                    Vibrator vibe = (Vibrator) FoodMenuAdapter.this.context.getSystemService(Context.VIBRATOR_SERVICE);
+                    vibe.vibrate(100);
+                }
+            });
+        }
+
 
         String ing = "";
 
@@ -79,15 +96,7 @@ public class FoodMenuAdapter extends BaseExpandableListAdapter {
         }
         ingred.setText(ing);
 
-        ImageView addItem = (ImageView) convertView.findViewById(R.id.addFoodItem);
-        addItem.setOnClickListener( new View.OnClickListener() {
-            public void onClick(View v) {
-                SingleToast.show(FoodMenuAdapter.this.context, item.getName() + " added to your order!", Toast.LENGTH_LONG);
-                FoodMenuAdapter.this.context.getSessionService().addToOrder(item);
-                Vibrator vibe = (Vibrator) FoodMenuAdapter.this.context.getSystemService(Context.VIBRATOR_SERVICE);
-                vibe.vibrate(100);
-            }
-        });
+
 
         return convertView;
     }

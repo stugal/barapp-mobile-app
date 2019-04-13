@@ -22,6 +22,9 @@ public class Item implements Serializable {
     @SerializedName("image_path")
     private String imagePath;
 
+    @SerializedName("sold_out")
+    private boolean soldOut;
+
     private List<String> ingredients;
 
     public int getItemId() {
@@ -62,6 +65,14 @@ public class Item implements Serializable {
 
     public void setPrice(float price) {
         this.price = price;
+    }
+
+    public boolean isSoldOut() {
+        return soldOut;
+    }
+
+    public void setSoldOut(boolean soldOut) {
+        this.soldOut = soldOut;
     }
 
     @Override

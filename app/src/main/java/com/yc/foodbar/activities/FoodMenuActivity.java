@@ -42,6 +42,7 @@ public class FoodMenuActivity extends AbstractFoodBarActivity {
 
         expandableListView = (ExpandableListView) findViewById(R.id.foodMenuExpandable);
         expandableListAdapter = new FoodMenuAdapter(this, f.getMenu());
+
         expandableListView.setAdapter(expandableListAdapter);
         this.toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         toolbar.setBackgroundColor(Color.parseColor("#ffffff"));
@@ -50,7 +51,9 @@ public class FoodMenuActivity extends AbstractFoodBarActivity {
 
         ImageView bgImg = (ImageView) findViewById(R.id.foodMenuBgImg);
         Picasso.with(this).load(this.f.getVendorImagePath()).resize(200, 0).into(bgImg);
-        //bgImg.setAlpha(127);
+
+        // expand group
+        expandableListView.expandGroup(0);
     }
 
     @Override

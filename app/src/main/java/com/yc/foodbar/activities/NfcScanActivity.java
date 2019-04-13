@@ -142,9 +142,9 @@ public class NfcScanActivity extends AbstractFoodBarActivity {
 
 
     private void handleNFC(Intent intent) {
-        if (getSessionService().isSessionActive()) {
+/*        if (getSessionService().isSessionActive()) {
             return;
-        }
+        }*/
             String action = intent.getAction();
 
             if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)) {

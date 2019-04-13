@@ -36,7 +36,7 @@ public class SessionService extends AbstractFoodBarService {
 
     public void addToOrder(Item item) {
         if (order == null) {
-            order = new Order(this.vendorId, this.tableId, this.userId, this.items);
+            order = new Order(this.vendorId, this.tableId, this.userId, null, this.items);
             items.add(item);
         } else {
             order.getItems().add(item);

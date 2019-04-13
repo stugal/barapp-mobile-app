@@ -23,6 +23,8 @@ public class CheckoutActivity extends AbstractFoodBarActivity {
 
     private CheckoutAdapter adapter;
 
+    private TextView specialInstructionsTxt;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +35,8 @@ public class CheckoutActivity extends AbstractFoodBarActivity {
         ListView listView = (ListView) findViewById(R.id.checkoutItemList);
         listView.setAdapter(adapter);
 
+        this.specialInstructionsTxt = (TextView) findViewById(R.id.specialInstructions);
+
         updateTotal();
     }
 
@@ -41,26 +45,27 @@ public class CheckoutActivity extends AbstractFoodBarActivity {
     }
 
     public void order(View view) {
-       new OrderPlacementTask(this, getSessionService().getOrder()) {
-           protected void onPostExecute(OrderResult result) {
+        getSessionService().getOrder().setSpecialInstructions(this.specialInstructionsTxt.getText().toString());
+        new OrderPlacementTask(this, getSessionService().getOrder()) {
+            protected void onPostExecute(OrderResult result) {
                /*SingleToast.show(CheckoutActivity.this,
                        "Your order number is: " + result.getOrderNumber() + " and it will be with you within " + result.getExpectedWaitTime() + " min :)" , Toast.LENGTH_LONG);*/
 
-               AlertDialog alertDialog = new AlertDialog.Builder(CheckoutActivity.this).create();
-               alertDialog.setTitle("Order Received :)");
-               alertDialog.setMessage("Your order number is: " + result.getOrderNumber() + " and it will be with you within " + result.getExpectedWaitTime() + " min :)");
-               alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
-                       new DialogInterface.OnClickListener() {
-                           public void onClick(DialogInterface dialog, int which) {
-                               dialog.dismiss();
-                               CheckoutActivity.this.adapter.clear();
-                               CheckoutActivity.this.getSessionService().clearOrder();
-                               finish();
-                           }
-                       });
-               alertDialog.show();
-           }
-       }.execute();
+                AlertDialog alertDialog = new AlertDialog.Builder(CheckoutActivity.this).create();
+                alertDialog.setTitle("Order Received :)");
+                alertDialog.setMessage("Your order number is: " + result.getOrderNumber() + " and it will be with you within " + result.getExpectedWaitTime() + " min :)");
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                CheckoutActivity.this.adapter.clear();
+                                CheckoutActivity.this.getSessionService().clearOrder();
+                                finish();
+                            }
+                        });
+                alertDialog.show();
+            }
+        }.execute();
     }
 
     public void updateTotal() {
