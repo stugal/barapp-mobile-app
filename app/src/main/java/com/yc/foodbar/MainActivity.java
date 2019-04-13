@@ -2,6 +2,8 @@ package com.yc.foodbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -19,15 +21,22 @@ import com.yc.foodbar.ui.elements.SingleToast;
 
 import java.util.Arrays;
 
-import static android.R.attr.data;
-
 public class MainActivity extends AbstractFoodBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                openQrScan(getCurrentFocus());
+            }
+        }, 1800);
     }
+
+
 
     public void openQrScan(View view) {
         IntentIntegrator integrator = new IntentIntegrator(this);
