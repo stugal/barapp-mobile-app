@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +38,22 @@ public class CheckoutActivity extends AbstractFoodBarActivity {
 
         this.specialInstructionsTxt = (TextView) findViewById(R.id.specialInstructions);
 
+        TextView textViewBack = (TextView) findViewById(R.id.checkoutBackTxt);
+        textViewBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cancel(view);
+            }
+        });
+
+        ImageView imageViewBack = (ImageView) findViewById(R.id.checkoutBackImg);
+        imageViewBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cancel(view);
+            }
+        });
+
         updateTotal();
     }
 
@@ -53,7 +70,8 @@ public class CheckoutActivity extends AbstractFoodBarActivity {
 
                 AlertDialog alertDialog = new AlertDialog.Builder(CheckoutActivity.this).create();
                 alertDialog.setTitle("Order Received :)");
-                alertDialog.setMessage("Your order number is: " + result.getOrderNumber() + " and it will be with you within " + result.getExpectedWaitTime() + " min :)");
+
+                alertDialog.setMessage("Your order number is: " + result.getOrderNumber() + " and it will be with you within " + result.getExpectedWaitTime() + " seconds :)");
                 alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {

@@ -7,10 +7,10 @@
     android:title="TITLE"
     app:showAsAction="never"/>-->
 
-    <item android:id="@+id/checkout"
+   <!-- <item android:id="@+id/checkout"
         android:icon="@drawable/ic_checkout_dark"
         android:title="Order!"
-        app:showAsAction="ifRoom"  />
+        app:showAsAction="ifRoom"  />-->
 
 
 
